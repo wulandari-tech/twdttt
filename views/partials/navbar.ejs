@@ -173,12 +173,10 @@
     visibility: visible;
 }
 
-
-/* Penyesuaian Navbar Bootstrap Default (jika masih digunakan berdampingan) */
 @media (max-width: 991.98px) {
     .site-navbar .navbar-collapse { /* Ini untuk dropdown bawaan Bootstrap jika masih ada */
         background-color: var(--primary-dark-color);
-        margin-top: 0; /* Jika menggunakan position absolute */
+        margin-top: 0; 
         border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
         padding: 0.5rem 0;
         box-shadow: var(--shadow-lg);
@@ -196,27 +194,24 @@
         padding: 0.5rem 0;
         overflow-y: auto;
     }
-    /* ... (style lain untuk item di navbar-collapse Bootstrap seperti sebelumnya) ... */
 }
-/* Pastikan body punya padding atas jika navbar fixed-top */
 body {
     padding-top: var(--header-height);
 }
 </style>
-
 <nav class="navbar navbar-expand-lg fixed-top site-navbar">
     <div class="container">
         <button class="main-menu-toggler d-lg-none me-2" type="button" id="mainMenuToggler" aria-label="Toggle Main Menu">
             <i class="fas fa-bars"></i>
         </button>
         <a class="navbar-brand fw-bold" href="/">
-            <i class="fas fa-graduation-cap me-2"></i>WFC Course
+            <i class="fas fa-graduation-cap me-2"></i>WFC COURSE
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAuthContent" aria-controls="navbarAuthContent" aria-expanded="false" aria-label="Toggle User Menu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarAuthContent"> 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-none d-lg-flex"> {/* Sembunyikan di mobile, tampil di desktop */}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-none d-lg-flex">
                 <li class="nav-item">
                     <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" aria-current="page" href="/">
                         <i class="fas fa-home fa-fw me-1"></i>Beranda
