@@ -215,7 +215,8 @@ body {
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAuthContent" aria-controls="navbarAuthContent" aria-expanded="false" aria-label="Toggle User Menu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarAuthContent"> 
+        <div class="collapse navbar-collapse" id="navbarAuthContent"> {/* ID diubah agar tidak konflik dengan sidebar */}
+            {/* Navigasi utama desktop bisa diletakkan di sini atau di sidebar */}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-none d-lg-flex"> {/* Sembunyikan di mobile, tampil di desktop */}
                 <li class="nav-item">
                     <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" aria-current="page" href="/">
