@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const Schema = mongoose.Schema;
+
+const EnrolledCourseSchema = new Schema({
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    completedLessons: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
+    isCompleted: { type: Boolean, default: false },
+    certificateRequest: {
+        status: { type: String, enum: ['none', 'pending', 'approved', 'rejected'], default: 'none' },
+        photoUrl: String,
+        photoPublicId: String,
+        requestedAt: Date,
+        processedAt: Date,
+        certificateUrl: String,
+        notes: String
+    },
+    enrolledAt: { type: Date, default: Date.now }
+}, { _id: true }); // Pastikan subdokumen punya _id untuk referensi jika perlu
+
+const UserSchema = new Schema({
+    name: { type: String, required: [true, 'Nama wajib diisi'], trim: true },
+    email: { type: String, required: [true, 'Email wajib diisi'], unique: true, trim: true, lowercase: true, match: [/.+\@.+\..+/, 'Email tidak valid'] },
+    password: { type: String, required: [true, 'Password wajib diisi'], minlength: [6, 'Password minimal 6 karakter'] },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    enrolledCourses: [EnrolledCourseSchema],
+    isBanned: { type: Boolean, default: false }
+}, { timestamps: true });
+
+UserSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (err) { next(err); }
+});
+
+UserSchema.methods.matchPassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+module.exports = mongoose.model('User', UserSchema);
