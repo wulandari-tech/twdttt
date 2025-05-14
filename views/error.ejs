@@ -1,0 +1,23 @@
+<%- include('partials/header', { pageTitle: typeof pageTitle !== 'undefined' ? pageTitle : 'Terjadi Kesalahan' }) %>
+
+<div class="error-page-container">
+    <div class="error-icon">
+        <i class="fas fa-exclamation-triangle fa-5x"></i>
+    </div>
+    <h1 class="error-title"><%= typeof heading !== 'undefined' ? heading : 'Oops! Terjadi Masalah' %></h1>
+    <p class="error-message"><%= typeof message !== 'undefined' ? message : 'Maaf, halaman yang Anda cari tidak dapat ditemukan atau terjadi kesalahan internal.' %></p>
+
+    <% if (typeof error !== 'undefined' && error.stack && process.env.NODE_ENV !== 'production') { %>
+        <div class="error-details-dev">
+            <h2>Detail Teknis (Mode Pengembangan):</h2>
+            <pre><%= error.stack %></pre>
+        </div>
+    <% } %>
+
+    <div class="error-actions">
+        <a href="javascript:history.back()" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
+        <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Ke Halaman Utama</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

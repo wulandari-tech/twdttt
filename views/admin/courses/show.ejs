@@ -1,0 +1,109 @@
+<%- include('../../partials/header', { pageTitle: pageTitle }) %>
+<div class="container mt-4">
+    <%- include('../../partials/flash-messages') %>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1><%= course.title %></h1>
+        <div>
+            <a href="/admin/courses/<%= course._id %>/edit" class="btn btn-warning"><i class="fas fa-edit"></i> Edit Kursus</a>
+            <a href="/admin/courses" class="btn btn-secondary">Kembali ke Daftar</a>
+        </div>
+    </div>
+
+    <% if (course.coverImage && course.coverImage.url) { %>
+        <img src="<%= course.coverImage.url %>" alt="Sampul <%= course.title %>" class="img-fluid rounded mb-3" style="max-height: 300px;">
+    <% } %>
+    <p><strong>Instruktur:</strong> <%= course.instructor || 'N/A' %></p>
+    <p><strong>Kategori:</strong> <%= course.category || 'N/A' %></p>
+    <p><strong>Harga:</strong> <%= course.price > 0 ? 'Rp ' + course.price.toLocaleString('id-ID') : 'Gratis' %></p>
+    <p><strong>Deskripsi:</strong> <%- course.description %></p>
+
+    <hr>
+    <h3><i class="fas fa-list-ul"></i> Daftar Pelajaran (<%= course.lessons.length %>)</h3>
+    <% if (course.lessons.length > 0) { %>
+        <ul class="list-group mb-3">
+            <% course.lessons.forEach(lesson => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <% if (lesson.contentType === 'video') { %><i class="fas fa-video text-primary"></i>
+                        <% } else if (lesson.contentType === 'pdf') { %><i class="fas fa-file-pdf text-danger"></i>
+                        <% } else if (lesson.contentType === 'image') { %><i class="fas fa-image text-success"></i>
+                        <% } else { %><i class="fas fa-file-alt text-info"></i><% } %>
+                        <%= lesson.title %>
+                        <small class="text-muted">(<%= lesson.contentType %> <%= lesson.duration ? `- ${lesson.duration}` : '' %>)</small>
+                    </div>
+                    <div>
+                        <a href="/admin/courses/<%= course._id %>/lessons/<%= lesson._id %>/edit" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                        <form action="/admin/courses/<%= course._id %>/lessons/<%= lesson._id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus pelajaran ini?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p class="alert alert-info">Belum ada pelajaran untuk kursus ini.</p>
+    <% } %>
+
+    <hr>
+    <h3><i class="fas fa-plus-circle"></i> Tambah Pelajaran Baru</h3>
+    <form action="/admin/courses/<%= course._id %>/lessons" method="POST" enctype="multipart/form-data" class="border p-3 rounded bg-light">
+        <div class="mb-3">
+            <label for="lessonTitle" class="form-label">Judul Pelajaran</label>
+            <input type="text" class="form-control" id="lessonTitle" name="title" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="lessonContentType" class="form-label">Tipe Konten</label>
+                <select class="form-select" id="lessonContentType" name="contentType" required>
+                    <option value="video">Video</option>
+                    <option value="pdf">PDF</option>
+                    <option value="image">Gambar</option>
+                    <option value="text">Teks</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="lessonDuration" class="form-label">Durasi (mis: 10mnt, 1j 15m)</label>
+                <input type="text" class="form-control" id="lessonDuration" name="duration">
+            </div>
+        </div>
+        <div class="mb-3" id="lessonFileUploadDiv">
+            <label for="lessonFile" class="form-label">File Materi (Video/PDF/Gambar)</label>
+            <input type="file" class="form-control" id="lessonFile" name="lessonFile">
+        </div>
+        <div class="mb-3" id="lessonTextContentDiv" style="display:none;">
+            <label for="lessonTextContent" class="form-label">Konten Teks (HTML didukung)</label>
+            <textarea class="form-control" id="lessonTextContent" name="textContent" rows="8"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Tambah Pelajaran</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentTypeSelect = document.getElementById('lessonContentType');
+        const fileUploadDiv = document.getElementById('lessonFileUploadDiv');
+        const textContentDiv = document.getElementById('lessonTextContentDiv');
+        const lessonFile = document.getElementById('lessonFile');
+        const lessonText = document.getElementById('lessonTextContent');
+
+        function toggleLessonInputs() {
+            if (!contentTypeSelect) return;
+            if (contentTypeSelect.value === 'text') {
+                fileUploadDiv.style.display = 'none';
+                textContentDiv.style.display = 'block';
+                lessonFile.removeAttribute('required');
+                lessonText.setAttribute('required', 'required');
+            } else {
+                fileUploadDiv.style.display = 'block';
+                textContentDiv.style.display = 'none';
+                lessonFile.setAttribute('required', 'required');
+                lessonText.removeAttribute('required');
+            }
+        }
+        if (contentTypeSelect) {
+            contentTypeSelect.addEventListener('change', toggleLessonInputs);
+            toggleLessonInputs();
+        }
+    });
+</script>
+<%- include('../../partials/footer') %>

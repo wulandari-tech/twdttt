@@ -1,0 +1,73 @@
+<%- include('../../partials/header', { pageTitle: pageTitle }) %>
+<div class="container mt-4">
+    <h1><%= pageTitle %></h1>
+    <h4>Untuk Kursus: <a href="/admin/courses/<%= course._id %>"><%= course.title %></a></h4>
+    <%- include('../../partials/flash-messages') %>
+
+    <form action="/admin/courses/<%= course._id %>/lessons/<%= lesson._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="lessonTitle" class="form-label">Judul Pelajaran</label>
+            <input type="text" class="form-control" id="lessonTitle" name="title" value="<%= lesson.title %>" required>
+        </div>
+         <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="lessonContentType" class="form-label">Tipe Konten</label>
+                <select class="form-select" id="lessonContentTypeEdit" name="contentType" required>
+                    <option value="video" <%= lesson.contentType === 'video' ? 'selected' : '' %>>Video</option>
+                    <option value="pdf" <%= lesson.contentType === 'pdf' ? 'selected' : '' %>>PDF</option>
+                    <option value="image" <%= lesson.contentType === 'image' ? 'selected' : '' %>>Gambar</option>
+                    <option value="text" <%= lesson.contentType === 'text' ? 'selected' : '' %>>Teks</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="lessonDuration" class="form-label">Durasi</label>
+                <input type="text" class="form-control" id="lessonDuration" name="duration" value="<%= lesson.duration || '' %>">
+            </div>
+        </div>
+
+        <div class="mb-3" id="lessonFileUploadDivEdit">
+            <label for="lessonFile" class="form-label">Ganti File Materi (Opsional)</label>
+            <input type="file" class="form-control" id="lessonFileEdit" name="lessonFile">
+            <% if (lesson.contentCloudinary && lesson.contentCloudinary.url) { %>
+                <p class="mt-2">File saat ini:
+                    <a href="<%= lesson.contentCloudinary.url %>" target="_blank">
+                        <%= lesson.contentCloudinary.public_id %>
+                    </a>
+                    (<%= lesson.contentCloudinary.resource_type %>)
+                </p>
+            <% } %>
+        </div>
+        <div class="mb-3" id="lessonTextContentDivEdit" style="display:none;">
+            <label for="lessonTextContent" class="form-label">Konten Teks</label>
+            <textarea class="form-control" id="lessonTextContentEdit" name="textContent" rows="8"><%= lesson.contentType === 'text' ? lesson.textContent : '' %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Perbarui Pelajaran</button>
+        <a href="/admin/courses/<%= course._id %>" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentTypeSelect = document.getElementById('lessonContentTypeEdit');
+        const fileUploadDiv = document.getElementById('lessonFileUploadDivEdit');
+        const textContentDiv = document.getElementById('lessonTextContentDivEdit');
+        // const lessonFile = document.getElementById('lessonFileEdit'); // Tidak perlu set required karena opsional saat edit
+        // const lessonText = document.getElementById('lessonTextContentEdit');
+
+        function toggleLessonInputsEdit() {
+             if (!contentTypeSelect) return;
+            if (contentTypeSelect.value === 'text') {
+                fileUploadDiv.style.display = 'none';
+                textContentDiv.style.display = 'block';
+            } else {
+                fileUploadDiv.style.display = 'block';
+                textContentDiv.style.display = 'none';
+            }
+        }
+         if (contentTypeSelect) {
+            contentTypeSelect.addEventListener('change', toggleLessonInputsEdit);
+            toggleLessonInputsEdit();
+        }
+    });
+</script>
+<%- include('../../partials/footer') %>

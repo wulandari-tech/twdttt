@@ -1,0 +1,82 @@
+<%- include('../partials/header', { pageTitle: pageTitle, currentPath: '/admin' }) %>
+<div class="admin-container mt-4">
+    <%- include('../partials/flash-messages') %>
+    <div class="page-header-admin">
+        <h1><i class="fas fa-shield-alt me-2 text-primary"></i><%= pageTitle %></h1>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x mb-2"></i>
+                    <h5 class="card-title">Total Pengguna</h5>
+                    <p class="card-text fs-2 fw-bold"><%= typeof totalUsers !== 'undefined' ? totalUsers : 'N/A' %></p>
+                    <a href="/admin/users" class="stretched-link text-white">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-graduation-cap fa-3x mb-2"></i>
+                    <h5 class="card-title">Total Kursus</h5>
+                    <p class="card-text fs-2 fw-bold"><%= typeof totalCourses !== 'undefined' ? totalCourses : 'N/A' %></p>
+                    <a href="/admin/courses" class="stretched-link text-white">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-3x mb-2"></i>
+                    <h5 class="card-title">Kursus Dipublikasikan</h5>
+                    <p class="card-text fs-2 fw-bold"><%= typeof totalPublishedCourses !== 'undefined' ? totalPublishedCourses : 'N/A' %></p>
+                     <a href="/admin/courses" class="stretched-link text-white">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold"><i class="fas fa-user-clock me-2"></i>Pengguna Terbaru</div>
+                <div class="list-group list-group-flush">
+                    <% if (typeof recentUsers !== 'undefined' && recentUsers.length > 0) { %>
+                        <% recentUsers.forEach(user => { %>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-user me-2 text-muted"></i><%= user.name %> (<%= user.email %>)</span>
+                                <span class="badge bg-<%= user.role === 'admin' ? 'danger' : (user.isBanned ? 'warning text-dark' : 'secondary') %> rounded-pill">
+                                    <%= user.role === 'admin' ? 'Admin' : (user.isBanned ? 'Diblokir' : 'User') %>
+                                </span>
+                            </a>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="list-group-item">Tidak ada pengguna terbaru.</div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold"><i class="fas fa-book-open me-2"></i>Kursus Terbaru</div>
+                 <div class="list-group list-group-flush">
+                    <% if (typeof recentCourses !== 'undefined' && recentCourses.length > 0) { %>
+                        <% recentCourses.forEach(course => { %>
+                             <a href="/admin/courses/<%= course._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-chalkboard-teacher me-2 text-muted"></i><%= course.title %></span>
+                                <span class="badge bg-<%= course.isPublished ? 'success' : 'warning text-dark' %> rounded-pill">
+                                    <%= course.isPublished ? 'Published' : 'Draft' %>
+                                </span>
+                            </a>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="list-group-item">Tidak ada kursus terbaru.</div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

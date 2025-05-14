@@ -1,0 +1,11 @@
+<nav aria-label="breadcrumb" class="breadcrumbs-container">
+    <ol class="breadcrumb">
+        <% breadcrumbs.forEach((crumb, index) => { %>
+            <% if (index === breadcrumbs.length - 1) { %>
+                <li class="breadcrumb-item active" aria-current="page"><%= crumb.name %></li>
+            <% } else { %>
+                <li class="breadcrumb-item"><a href="<%= crumb.link %>"><%= crumb.name %></a></li>
+            <% } %>
+        <% }); %>
+    </ol>
+</nav>

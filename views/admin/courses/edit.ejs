@@ -1,0 +1,74 @@
+<%- include('../../partials/header', { pageTitle: pageTitle, currentPath: '/admin/courses' }) %>
+
+<div class="admin-container mt-4">
+    <div class="page-header-admin">
+        <h1><%= pageTitle %></h1>
+        <div>
+            <a href="/admin/courses/<%= course._id %>" class="btn btn-info"><i class="fas fa-eye"></i> Lihat Detail</a>
+            <a href="/admin/courses" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Kursus</a>
+        </div>
+    </div>
+
+    <%- include('../../partials/flash-messages') %>
+
+    <form action="/admin/courses/<%= course._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="card card-body shadow-sm needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="title" class="form-label">Judul Kursus</label>
+            <input type="text" class="form-control" id="title" name="title" value="<%= course.title %>" required>
+            <div class="invalid-feedback">Judul kursus wajib diisi.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="shortDescription" class="form-label">Deskripsi Singkat (Max 200 karakter)</label>
+            <textarea class="form-control" id="shortDescription" name="shortDescription" rows="2" maxlength="200"><%= course.shortDescription || '' %></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Deskripsi Lengkap</label>
+            <textarea class="form-control" id="description" name="description" rows="5" required><%= course.description %></textarea>
+            <div class="invalid-feedback">Deskripsi lengkap wajib diisi.</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="instructor" class="form-label">Instruktur</label>
+                <input type="text" class="form-control" id="instructor" name="instructor" value="<%= course.instructor || '' %>">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="category" class="form-label">Kategori</label>
+                <input type="text" class="form-control" id="category" name="category" value="<%= course.category || '' %>">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="price" class="form-label">Harga (Angka, 0 untuk gratis)</label>
+                <input type="number" class="form-control" id="price" name="price" step="1000" min="0" value="<%= typeof course.price !== 'undefined' ? course.price : 0 %>">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="tags" class="form-label">Tags (Pisahkan dengan koma)</label>
+                <input type="text" class="form-control" id="tags" name="tags" value="<%= course.tags ? course.tags.join(', ') : '' %>">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="coverImage" class="form-label">Ganti Gambar Sampul (Opsional, Max 5MB)</label>
+            <input type="file" class="form-control" id="coverImage" name="coverImage" accept="image/jpeg, image/png, image/gif, image/webp">
+            <% if (course.coverImage && course.coverImage.url) { %>
+                <img src="<%= course.coverImage.url %>" alt="Sampul Saat Ini" class="img-thumbnail mt-2" style="max-height: 150px;">
+            <% } else { %>
+                <p class="mt-2"><small class="text-muted">Belum ada gambar sampul.</small></p>
+            <% } %>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="isPublished" name="isPublished" <%= course.isPublished ? 'checked' : '' %>>
+            <label class="form-check-label" for="isPublished">
+                Publikasikan Kursus Ini (Akan tampil di halaman publik)
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> Perbarui Kursus</button>
+    </form>
+</div>
+<%- include('../../partials/footer') %>

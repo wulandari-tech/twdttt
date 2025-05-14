@@ -1,0 +1,19 @@
+<%- include('../partials/header', { title: 'Buat Kursus Baru' }) %>
+<h1>Buat Kursus Baru</h1>
+<form action="/courses" method="POST"> <!-- enctype="multipart/form-data" jika ada upload cover -->
+    <div>
+        <label for="title">Judul Kursus:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <div>
+        <label for="description">Deskripsi:</label>
+        <textarea id="description" name="description" required></textarea>
+    </div>
+    <div>
+        <label for="instructor">Instruktur (opsional):</label>
+        <input type="text" id="instructor" name="instructor">
+    </div>
+    <!-- Input untuk Cover Image jika ada -->
+    <button type="submit" class="btn">Simpan Kursus</button>
+</form>
+<%- include('../partials/footer') %>

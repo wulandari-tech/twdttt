@@ -1,0 +1,32 @@
+<%- include('../partials/header', { pageTitle: 'Dashboard Saya' }) %>
+<div class="container mt-4 user-dashboard">
+    <%- include('../partials/flash-messages') %>
+    <h1 class="mb-4"><i class="fas fa-user-graduate me-2"></i>Dashboard Saya</h1>
+    <h4>Selamat datang kembali, <%= currentUser.name %>!</h4>
+
+    <hr>
+    <h3 class="mt-4 mb-3"><i class="fas fa-layer-group me-2"></i>Kursus yang Saya Ikuti</h3>
+    <% if (currentUser.enrolledCourses && currentUser.enrolledCourses.length > 0) { %>
+        <div class="row">
+            <% currentUser.enrolledCourses.forEach(course => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm course-card-enrolled">
+                        <% if(course.coverImage && course.coverImage.url) { %>
+                            <img src="<%= course.coverImage.url %>" class="card-img-top" alt="<%= course.title %>" style="height: 180px; object-fit: cover;">
+                        <% } else { %>
+                            <img src="/images/default-course-cover.png" class="card-img-top" alt="Default Cover" style="height: 180px; object-fit: cover;">
+                        <% } %>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title"><%= course.title %></h5>
+                            <p class="card-text small text-muted"><%= course.shortDescription || (course.description ? course.description.substring(0,80)+'...' : '') %></p>
+                            <a href="/courses/<%= course._id %>" class="btn btn-primary mt-auto">Lanjutkan Belajar</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="alert alert-info">Anda belum mendaftar di kursus manapun. <a href="/courses">Jelajahi kursus kami!</a></p>
+    <% } %>
+</div>
+<%- include('../partials/footer') %>

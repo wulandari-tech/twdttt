@@ -1,0 +1,556 @@
+/* === GOOGLE FONT IMPORT (Contoh) === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* === CSS VARIABLES (PALET WARNA MENCOROK & MODERN) === */
+:root {
+    --font-family-main: 'Poppins', sans-serif;
+
+    --primary-color: #6E41E2; /* Ungu Vibrant */
+    --primary-light-color: #8A63E9;
+    --primary-dark-color: #5630B0;
+
+    --secondary-color: #00C6A7; /* Teal/Mint Segar */
+    --secondary-light-color: #5DDFCF;
+    --secondary-dark-color: #00A087;
+
+    --accent-color: #FF6B6B; /* Coral/Merah Muda Cerah untuk Aksen */
+    --accent-hover-color: #FF4F4F;
+
+    --bg-light-primary: #F4F0FD; /* Latar Belakang Sangat Terang dengan Nuansa Ungu */
+    --bg-light-secondary: #FFFFFF;
+    --bg-dark-primary: #1A1E2C; /* Latar Belakang Gelap (jika ada dark mode) */
+    --bg-dark-secondary: #2A2F40;
+
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #FFFFFF;
+    --text-on-accent: #FFFFFF;
+    --text-dark: #2A2F40;
+    --text-medium: #5A6173;
+    --text-light: #A0A5B9;
+
+    --border-color-light: #E0E0E0;
+    --border-color-dark: #404559;
+
+    --success-color: #00C851;
+    --error-color: #ff4444;
+    --warning-color: #ffbb33;
+    --info-color: #33b5e5;
+
+    --border-radius-sm: 0.3rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.8rem;
+
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+
+    --header-height: 70px;
+    --transition-speed: 0.3s;
+}
+
+/* === GLOBAL RESET & BASE STYLES === */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Basis untuk REM unit */
+}
+
+body {
+    font-family: var(--font-family-main);
+    background-color: var(--bg-light-primary);
+    color: var(--text-dark);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-top: var(--header-height);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-content {
+    flex-grow: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+    color: var(--text-dark);
+}
+h1 { font-size: 2.5rem; } /* 40px */
+h2 { font-size: 2rem; }   /* 32px */
+h3 { font-size: 1.5rem; } /* 24px */
+h4 { font-size: 1.25rem; }/* 20px */
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-medium);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+a:hover {
+    color: var(--primary-dark-color);
+    text-decoration: none; /* Hilangkan underline default, bisa tambahkan jika mau */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul, ol {
+    padding-left: 1.5rem;
+}
+
+/* === UTILITY CLASSES (Contoh) === */
+.text-primary { color: var(--primary-color) !important; }
+.bg-primary-soft { background-color: var(--primary-light-color) !important; opacity: 0.15; /* Contoh, atau gunakan rgba */}
+.fw-bold { font-weight: 700 !important; }
+.fw-semibold { font-weight: 600 !important; }
+.shadow-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-md { box-shadow: var(--shadow-md) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+.border-0 { border: 0 !important; }
+.rounded-md { border-radius: var(--border-radius-md) !important; }
+.rounded-lg { border-radius: var(--border-radius-lg) !important; }
+
+/* === CONTAINER (Jika tidak menggunakan Bootstrap penuh) === */
+.container, .container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 576px) { .container { max-width: 540px; } }
+@media (min-width: 768px) { .container { max-width: 720px; } }
+@media (min-width: 992px) { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1400px) { .container { max-width: 1320px; } }
+
+
+/* === BUTTONS === */
+.btn {
+    display: inline-flex; /* Untuk align ikon dan teks */
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-main);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    border-radius: var(--border-radius-md);
+    border: 2px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow-sm);
+}
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+.btn i { margin-right: 0.5em; font-size: 1.1em; }
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-on-primary);
+}
+.btn-primary:hover {
+    background-color: var(--primary-dark-color);
+    border-color: var(--primary-dark-color);
+    color: var(--text-on-primary);
+}
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--text-on-secondary);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-dark-color);
+    border-color: var(--secondary-dark-color);
+    color: var(--text-on-secondary);
+}
+.btn-accent {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-on-accent);
+}
+.btn-accent:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+    color: var(--text-on-accent);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-on-primary);
+}
+
+.btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+.btn-sm { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+/* === FORMS === */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-medium);
+}
+.form-control, .form-select {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-light-secondary);
+    background-clip: padding-box;
+    border: 1px solid var(--border-color-light);
+    appearance: none;
+    border-radius: var(--border-radius-md);
+    transition: border-color var(--transition-speed) ease-in-out, box-shadow var(--transition-speed) ease-in-out;
+}
+.form-control:focus, .form-select:focus {
+    color: var(--text-dark);
+    background-color: var(--bg-light-secondary);
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(110, 65, 226, 0.25); /* Warna dari --primary-color */
+}
+.form-control::placeholder {
+    color: var(--text-light);
+    opacity: 1;
+}
+.form-check-input {
+    width: 1.25em;
+    height: 1.25em;
+    margin-top: 0.175em; /* Align dengan teks label */
+}
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(110, 65, 226, 0.25);
+}
+
+
+/* === CARD STYLING (Umum, untuk Course Cards, dll.) === */
+.card {
+    background-color: var(--bg-light-secondary);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--border-radius-lg); /* Lebih rounded */
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    overflow: hidden; /* Penting untuk card-img-top */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Untuk card dengan tinggi sama di grid */
+}
+.card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+.card-img-top {
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+    /* height: 200px; object-fit: cover; (diatur per jenis kartu jika perlu) */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card:hover .card-img-top {
+    transform: scale(1.1);
+}
+.card-body {
+    padding: 1.5rem; /* Padding lebih besar */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Membuat card body mengisi ruang */
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+.card-text {
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+}
+.card-footer {
+    background-color: var(--bg-light-primary);
+    border-top: 1px solid var(--border-color-light);
+    padding: 1rem 1.5rem;
+}
+
+/* === COURSE CARD SPECIFIC (Publik & Admin) === */
+.course-card-public-img, .admin-table-thumbnail {
+    height: 200px;
+    object-fit: cover;
+}
+.course-title-public {
+    min-height: 2.8em; /* Untuk 2 baris judul */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.course-description-public {
+    min-height: 3.6em; /* Untuk 3 baris deskripsi */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    flex-grow: 1; /* Dorong harga dan tombol ke bawah */
+}
+.course-price-public, .course-price-detail {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* === AUTH PAGES (Login, Register) === */
+.auth-container .card {
+    border-radius: var(--border-radius-lg);
+}
+.auth-container .card-body {
+    padding: 2.5rem; /* Lebih besar padding */
+}
+.auth-container h2 i {
+    font-size: 0.9em;
+    vertical-align: middle;
+}
+
+/* === ADMIN & USER DASHBOARD PAGES === */
+.admin-container, .user-dashboard {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+.page-header-admin, .page-header-user {
+    display: flex;
+    flex-wrap: wrap; /* Agar tombol bisa turun di mobile */
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid var(--primary-color);
+}
+.page-header-admin h1, .page-header-user h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.page-header-admin h1 i, .page-header-user h1 i {
+    color: var(--primary-color);
+    margin-right: 0.6em;
+}
+
+/* Admin Dashboard Cards */
+.admin-dashboard .card {
+    transition: all var(--transition-speed) ease;
+    border-left: 5px solid transparent;
+}
+.admin-dashboard .card:hover {
+    border-left-color: var(--accent-color);
+}
+.admin-dashboard .card-body i { /* Ikon besar di card statistik */
+    opacity: 0.7;
+    transition: opacity var(--transition-speed) ease;
+}
+.admin-dashboard .card:hover .card-body i {
+    opacity: 1;
+}
+.admin-dashboard .card-title { font-size: 1rem; }
+.admin-dashboard .card-text { font-size: 2.2rem; }
+.admin-dashboard .stretched-link::after {
+    z-index: 0; /* Perbaiki agar tidak menutupi elemen lain di card */
+}
+
+/* Admin Table */
+.admin-table {
+    border-radius: var(--border-radius-md);
+    overflow: hidden; /* Untuk border-radius di table */
+    box-shadow: var(--shadow-md);
+}
+.admin-table thead.table-dark th {
+    background-color: var(--dark-bg-secondary); /* Atau primary-color */
+    color: var(--text-light-color);
+    border-bottom-width: 0; /* Hilangkan border bawah ganda */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+}
+.admin-table tbody tr:hover {
+    background-color: var(--bg-light-primary);
+}
+.admin-table td, .admin-table th {
+    vertical-align: middle;
+}
+.admin-table-thumbnail {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+}
+.admin-actions .btn {
+    margin: 0 0.2rem;
+    padding: 0.3rem 0.6rem; /* Tombol aksi lebih kecil */
+}
+
+/* === COURSE DETAIL PAGE (Publik) === */
+.course-detail-page-public .course-title-public-detail { color: var(--text-dark); }
+.course-detail-page-public .badge.bg-primary-soft { /* Kustomisasi badge jika perlu */
+    background-color: rgba(var(--primary-color), 0.1) !important; /* Sesuaikan RGBA */
+    color: var(--primary-color) !important;
+    font-weight: 500;
+}
+.course-detail-page-public .nav-tabs .nav-link {
+    color: var(--text-medium);
+    font-weight: 600;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.8rem 1.2rem;
+}
+.course-detail-page-public .nav-tabs .nav-link.active,
+.course-detail-page-public .nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background-color: transparent;
+}
+.course-detail-page-public .tab-content {
+    padding-top: 1.5rem;
+}
+.course-sidebar-info {
+    border-radius: var(--border-radius-lg);
+}
+.course-sidebar-info .course-detail-cover {
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+}
+.course-meta-details li {
+    margin-bottom: 0.5rem;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+}
+.course-meta-details li i { width: 20px; text-align: center; }
+
+/* === LESSON VIEW PUBLIC (Sudah ada style sebelumnya, ini tambahan/penyesuaian) === */
+.lesson-sidebar-public {
+    background-color: var(--bg-light-secondary); /* Lebih terang dari body */
+    box-shadow: 3px 0 15px rgba(0,0,0,0.05); /* Shadow di kanan */
+}
+.lesson-sidebar-public .course-title-sidebar { color: var(--primary-color); }
+.lesson-navigation-list-public .lesson-nav-item-public.active {
+    background-color: var(--primary-color);
+}
+.lesson-navigation-list-public .lesson-nav-item-public.active::before {
+    background-color: var(--accent-color); /* Indikator lebih mencolok */
+}
+.lesson-content-area-public {
+    background-color: var(--bg-light-secondary);
+}
+.lesson-header-public h1 { color: var(--primary-dark-color); }
+
+/* Komentar */
+.comment-card {
+    border-left: 4px solid var(--secondary-color);
+    background-color: var(--bg-light-secondary);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+}
+.comment-author strong { color: var(--primary-color); }
+.comment-text { color: var(--text-medium); }
+
+/* === FLASH MESSAGES === */
+.alert {
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+}
+.alert-success { background-color: var(--success-color); color: #fff; border-color: darken(var(--success-color), 10%); }
+.alert-danger { background-color: var(--error-color); color: #fff; border-color: darken(var(--error-color), 10%); }
+.alert-info { background-color: var(--info-color); color: #fff; border-color: darken(var(--info-color), 10%); }
+.alert-warning { background-color: var(--warning-color); color: var(--text-dark); border-color: darken(var(--warning-color), 10%); }
+.alert .btn-close { filter: invert(1) grayscale(100%) brightness(200%); } /* Tombol close lebih terlihat di background berwarna */
+
+/* === FOOTER === */
+.site-footer {
+    background-color: var(--dark-bg-primary);
+    color: var(--text-light);
+    padding: 3rem 0 1rem 0;
+    margin-top: 3rem; /* Beri jarak dari konten */
+}
+.site-footer h4 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.site-footer ul { list-style: none; padding-left: 0; }
+.site-footer ul li a {
+    color: var(--text-light);
+    opacity: 0.8;
+    padding: 0.3rem 0;
+    display: block;
+}
+.site-footer ul li a:hover {
+    opacity: 1;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+.footer-social a {
+    color: var(--text-light);
+    opacity: 0.8;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.footer-social a:hover {
+    opacity: 1;
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+.footer-bottom {
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color-dark);
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+.footer-bottom .fa-heart { color: var(--accent-color); }
+
+/* === RESPONSIVE (Tambahan dari yang sudah ada di lesson view) === */
+@media (max-width: 767px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    .btn-lg { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
+    .auth-container .card-body { padding: 1.5rem; }
+    .page-header-admin, .page-header-user { flex-direction: column; align-items: flex-start; }
+    .page-header-admin .btn, .page-header-user .btn { width: 100%; margin-top: 0.5rem; }
+}

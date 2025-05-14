@@ -1,0 +1,53 @@
+<%- include('../partials/header', { pageTitle: pageTitle || 'Daftar Akun Baru' }) %>
+
+<div class="container mt-5 mb-5 auth-container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4 p-sm-5">
+                    <h2 class="text-center mb-4 fw-bold">
+                        <i class="fas fa-user-plus me-2 text-primary"></i>Buat Akun Baru
+                    </h2>
+
+                    <%- include('../partials/flash-messages') %>
+
+                    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                        <% errors.forEach(function(error) { %>
+                            <div class="alert alert-danger alert-dismissible fade show py-2" role="alert">
+                                <%= error.msg %>
+                                <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% }); %>
+                    <% } %>
+
+                    <form action="/auth/register" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control form-control-lg" id="name" name="name" value="<%= typeof name != 'undefined' ? name : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Alamat Email</label>
+                            <input type="email" class="form-control form-control-lg" id="email" name="email" value="<%= typeof email != 'undefined' ? email : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password (Minimal 6 karakter)</label>
+                            <input type="password" class="form-control form-control-lg" id="password" name="password" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password2" class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control form-control-lg" id="password2" name="password2" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Daftar</button>
+                        </div>
+                    </form>
+                    <p class="mt-4 text-center">
+                        Sudah punya akun? <a href="/auth/login">Login di sini</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

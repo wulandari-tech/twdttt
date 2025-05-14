@@ -1,0 +1,61 @@
+<%- include('../../partials/header', { pageTitle: pageTitle, currentPath: '/admin/users' }) %>
+<div class="admin-container mt-4">
+    <%- include('../../partials/flash-messages') %>
+    <div class="page-header-admin">
+        <h1><i class="fas fa-users-cog me-2 text-primary"></i><%= pageTitle %></h1>
+    </div>
+
+    <% if (users && users.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered admin-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Terdaftar Sejak</th>
+                        <th>Status</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.name %></td>
+                            <td><%= user.email %></td>
+                            <td>
+                                <span class="badge bg-<%= user.role === 'admin' ? 'danger' : 'info' %>">
+                                    <%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %>
+                                </span>
+                            </td>
+                            <td><%= new Date(user.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %></td>
+                            <td>
+                                <% if (user.isBanned) { %>
+                                    <span class="badge bg-warning text-dark">Diblokir</span>
+                                <% } else { %>
+                                    <span class="badge bg-success">Aktif</span>
+                                <% } %>
+                            </td>
+                            <td class="text-center admin-actions">
+                                <% if (currentUser._id.toString() !== user._id.toString() && user.role !== 'admin') { %>
+                                    <form action="/admin/users/<%= user._id %>/ban?_method=POST" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin <%= user.isBanned ? 'mengaktifkan' : 'memblokir' %> pengguna ini?');">
+                                        <button type="submit" class="btn btn-sm <%= user.isBanned ? 'btn-success' : 'btn-warning' %>" title="<%= user.isBanned ? 'Aktifkan Pengguna' : 'Blokir Pengguna' %>">
+                                            <i class="fas <%= user.isBanned ? 'fa-user-check' : 'fa-user-slash' %>"></i>
+                                        </button>
+                                    </form>
+                                <% } else if (currentUser._id.toString() === user._id.toString()) { %>
+                                     <span class="badge bg-secondary">Ini Anda</span>
+                                <% } else if (user.role === 'admin') { %>
+                                    <span class="badge bg-secondary">Admin</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p class="alert alert-info">Tidak ada pengguna terdaftar.</p>
+    <% } %>
+</div>
+<%- include('../../partials/footer') %>

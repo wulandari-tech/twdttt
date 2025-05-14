@@ -1,0 +1,45 @@
+<%- include('../partials/header', { pageTitle: pageTitle }) %>
+<div class="container mt-5 auth-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="text-center mb-4 fw-bold"><i class="fas fa-sign-in-alt me-2 text-primary"></i><%= pageTitle %></h2>
+                    <%- include('../partials/flash-messages') %>
+                    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                        <% errors.forEach(function(error) { %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <%= error.msg %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                     <% if (error && error.length > 0) { %> <!-- Untuk error dari Passport -->
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <%= error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } %>
+
+                    <form action="/auth/login" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Alamat Email</label>
+                            <input type="email" class="form-control form-control-lg" id="email" name="email" required value="<%= typeof email != 'undefined' ? email : '' %>">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control form-control-lg" id="password" name="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        </div>
+                    </form>
+                    <p class="mt-4 text-center">
+                        Belum punya akun? <a href="/auth/register">Daftar di sini</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

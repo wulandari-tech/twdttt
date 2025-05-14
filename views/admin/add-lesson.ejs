@@ -1,0 +1,51 @@
+<%- include('../partials/header', { title: `Tambah Pelajaran ke ${course.title}` }) %>
+<h1>Tambah Pelajaran ke: <%= course.title %></h1>
+<form action="/courses/<%= course._id %>/lessons" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="title">Judul Pelajaran:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <div>
+        <label for="contentType">Tipe Konten:</label>
+        <select id="contentType" name="contentType" required>
+            <option value="video">Video</option>
+            <option value="pdf">PDF</option>
+            <option value="image">Gambar</option>
+            <option value="text">Teks</option>
+        </select>
+    </div>
+    <div id="fileUploadDiv"> <!-- Muncul/sembunyi via JS -->
+        <label for="lessonFile">File (Video/PDF/Gambar):</label>
+        <input type="file" id="lessonFile" name="lessonFile">
+    </div>
+    <div id="textContentDiv" style="display:none;"> <!-- Muncul/sembunyi via JS -->
+        <label for="textContent">Konten Teks:</label>
+        <textarea id="textContent" name="textContent" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn">Tambah Pelajaran</button>
+</form>
+
+<script>
+    // JS sederhana untuk menampilkan input yang sesuai
+    const contentTypeSelect = document.getElementById('contentType');
+    const fileUploadDiv = document.getElementById('fileUploadDiv');
+    const textContentDiv = document.getElementById('textContentDiv');
+
+    function toggleInputs() {
+        if (contentTypeSelect.value === 'text') {
+            fileUploadDiv.style.display = 'none';
+            textContentDiv.style.display = 'block';
+            document.getElementById('lessonFile').removeAttribute('required');
+            document.getElementById('textContent').setAttribute('required', 'required');
+
+        } else {
+            fileUploadDiv.style.display = 'block';
+            textContentDiv.style.display = 'none';
+            document.getElementById('lessonFile').setAttribute('required', 'required');
+            document.getElementById('textContent').removeAttribute('required');
+        }
+    }
+    contentTypeSelect.addEventListener('change', toggleInputs);
+    toggleInputs(); // Panggil saat load
+</script>
+<%- include('../partials/footer') %>
